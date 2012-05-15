@@ -9,11 +9,18 @@ echo "-------> Deployment has started..."
 
 # Checkout the real 'master' so we can view the repo files
 WORKING_DIR=`exec git config --get core.worktree`
-REPO_SCRIPT="$WORKING_DIR.mungo_deploy"
-REPO_PROCFILE="$WORKING_DIR.Procfile"
-chmod -Rf 0755 $REPO_SCRIPT
+REPO_PRE_DEPLOY_SCRIPT="$WORKING_DIR"mungo_pre_deploy
+REPO_POST_DEPLOY_SCRIPT="$WORKING_DIR"mungo_post_deploy
+REPO_PROCFILE="$WORKING_DIR"Procfile
 chmod -Rf 0755 $REPO_PROCFILE
+chmod -Rf 0755 $REPO_POST_DEPLOY_SCRIPT
+chmod -Rf 0755 $REPO_PRE_DEPLOY_SCRIPT
 
+if [ -x "$REPO_POST_DEPLOY_SCRIPT" ]; then
+       exec "$REPO_POST_DEPLOY_SCRIPT"
+       echo  "Your mungo_pre_deploy has been found and has been executed"  
+fi
+  
 # If the repository has a file called 'Procfile' then run it by foreman
 if [ -x "$REPO_PROCFILE" ]; then
   
@@ -22,9 +29,9 @@ if [ -x "$REPO_PROCFILE" ]; then
        echo  "Foreman is trying to start your application."
        
        # If the repository has a file called 'mungo_deploy' then run it
-       if [ -x "$REPO_SCRIPT" ]; then
-              exec "$REPO_SCRIPT"
-              echo  "Your mungo_deploy has been found and has been executed"
+       if [ -x "$REPO_POST_DEPLOY_SCRIPT" ]; then
+              exec "$REPO_POST_DEPLOY_SCRIPT"
+              echo  "Your mungo_post_deploy has been found and has been executed"
        fi
        
 fi
