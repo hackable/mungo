@@ -1,0 +1,33 @@
+#!/bin/sh
+echo "Initializing deployment of your site from repo...."
+git checkout -f
+echo "Initialization has completed  beensuccessfully"
+
+
+
+echo "-------> Deployment has started..."
+
+# Checkout the real 'master' so we can view the repo files
+WORKING_DIR=`exec git config --get core.worktree`
+REPO_SCRIPT="$WORKING_DIR.mungo_deploy"
+REPO_PROCFILE="$WORKING_DIR.Procfile"
+chmod -Rf 0755 $REPO_SCRIPT
+chmod -Rf 0755 $REPO_PROCFILE
+
+# If the repository has a file called 'Procfile' then run it by foreman
+if [ -x "$REPO_PROCFILE" ]; then
+  
+	     exec "foreman start"
+	     
+       echo  "Foreman is trying to start your application."
+       
+       # If the repository has a file called 'mungo_deploy' then run it
+       if [ -x "$REPO_SCRIPT" ]; then
+              exec "$REPO_SCRIPT"
+              echo  "Your mungo_deploy has been found and has been executed"
+       fi
+       
+fi
+
+echo "-------> Deployment has completed"
+
