@@ -8,6 +8,8 @@ if [ ! -d "$REPO_BASE" ]; then
     echo   "Creating base directory for repositories..."
     mkdir  "$REPO_BASE"
     echo   "Completed"
+else  
+    echo   "Base directory for repositories already installed"
 fi
 
 
@@ -16,4 +18,6 @@ if [ ! -d "$SITE_BASE" ]; then
     echo   "Creating base directory for sites..."
     mkdir  "$SITE_BASE"
     echo   "Completed"
+else  
+    echo   "Base directory for sites already installed"
 fi
