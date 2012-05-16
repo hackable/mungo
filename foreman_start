@@ -1,0 +1,34 @@
+SERVICE='foreman'
+LOG_FILE="app.log"
+
+if ps ax | grep -v grep | grep foreman > /dev/null
+then
+    FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
+    echo "$SERVICE service already running, with process id $FOREMAN_ID..Trying to kill it.."
+    kill $FOREMAN_ID
+    eval foreman start & exit
+
+    if ps ax | grep -v grep | grep $SERVICE > /dev/null 
+    then
+          echo "$SERVICE service restarted with process id $FOREMAN_ID, everything is fine"
+
+    else
+          echo "Unable to start $SERVICE"
+          tail -f $LOG_FILE
+    fi   
+
+else
+    FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
+    echo "$SERVICE is not running"
+    echo "$SERVICE trying to start foreman"
+    eval foreman start & exit
+
+   if ps ax | grep -v grep | grep $SERVICE > /dev/null 
+   then
+          echo "$SERVICE service running with process id $FOREMAN_ID, everything is fine"
+   else
+          echo "Unable to start $SERVICE"
+          tail -f $LOG_FILE    
+   fi
+
+fi

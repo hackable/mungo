@@ -7,8 +7,6 @@ echo "Initialization has completed  beensuccessfully"
 echo "-------> Deployment has started..."
 
 # Checkout the real 'master' so we can view the repo files
-SERVICE='foreman'
-LOG_FILE="app.log"
 WORKING_DIR=`exec git config --get core.worktree`
 REPO_PRE_DEPLOY_SCRIPT="$WORKING_DIR"/mungo_pre_deploy
 REPO_POST_DEPLOY_SCRIPT="$WORKING_DIR"/mungo_post_deploy
@@ -26,40 +24,7 @@ function start_app() {
   # If the repository has a file called 'Procfile' then run it by foreman
   if [ -x "$REPO_PROCFILE" ]; then
 
-
-    if ps ax | grep -v grep | grep foreman > /dev/null
-    then
-        FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
-        echo "$SERVICE service already running, with process id $FOREMAN_ID..Trying to kill it.."
-        kill $FOREMAN_ID
-        eval foreman start & exit
-
-        if ps ax | grep -v grep | grep $SERVICE > /dev/null 
-        then
-              echo "$SERVICE service restarted with process id $FOREMAN_ID, everything is fine"
-
-        else
-              echo "Unable to start $SERVICE"
-              tail -f $LOG_FILE
-        fi   
-
-    else
-        FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
-        echo "$SERVICE is not running"
-        echo "$SERVICE trying to start foreman"
-        eval foreman start & exit
-
-       if ps ax | grep -v grep | grep $SERVICE > /dev/null 
-       then
-              echo "$SERVICE service running with process id $FOREMAN_ID, everything is fine"
-       else
-              echo "Unable to start $SERVICE"
-              tail -f $LOG_FILE    
-       fi
-
-    fi
-
-
+        source "$WORKING_DIR"/foreman_start
 
          # If the repository has a file called 'mungo_deploy' then run it
          if [ -x "$REPO_POST_DEPLOY_SCRIPT" ]; then
