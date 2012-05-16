@@ -27,7 +27,7 @@ function start_app() {
 
 
 if [ -x "$REPO_PRE_DEPLOY_SCRIPT" ]; then
-       exec "$REPO_PRE_DEPLOY_SCRIPT"
+       source "$REPO_PRE_DEPLOY_SCRIPT"
        echo  "Your mungo_pre_deploy has been found and has been executed"  
        start_app
 else 
