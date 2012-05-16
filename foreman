@@ -29,10 +29,10 @@ then
     fi   
     
 else
-    FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
     echo "$SERVICE is not running"
     echo "$SERVICE trying to start foreman"
     foreman start <$LOG_FILE &>$LOG_FILE &
+    FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
     
     if ps ax | grep -v grep | grep $SERVICE > /dev/null 
     then
