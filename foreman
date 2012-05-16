@@ -1,6 +1,16 @@
 SERVICE='foreman'
 CURRENT_DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-LOG_FILE="app.log"
+LOG_FILE="mungo_app.log"
+
+if [ ! -f "$LOG_FILE" ]; then  
+
+ echo "Trying to install mungo log file"
+ 
+ touch $LOG_FILE 
+
+ echo "Created install mungo log file"
+
+fi
 
 if ps ax | grep -v grep | grep $SERVICE > /dev/null
 then
