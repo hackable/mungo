@@ -25,13 +25,7 @@ function start_app() {
   if [ -x "$REPO_PROCFILE" ]; then
 
         source "$WORKING_DIR"/foreman
-        cat $WORKING_DIR/mungo_app.log
-
-         # If the repository has a file called 'mungo_deploy' then run it
-         if [ -x "$REPO_POST_DEPLOY_SCRIPT" ]; then
-                exec "$REPO_POST_DEPLOY_SCRIPT"
-                echo  "Your mungo_post_deploy has been found and has been executed"
-         fi
+       
 
   fi
 }
@@ -41,8 +35,21 @@ if [ -x "$REPO_PRE_DEPLOY_SCRIPT" ]; then
        source "$REPO_PRE_DEPLOY_SCRIPT"
        echo   "Your mungo_pre_deploy has been found and has been executed"  
        start_app
+       cat $WORKING_DIR/mungo_app.log
+
+          # If the repository has a file called 'mungo_deploy' then run it
+          if [ -x "$REPO_POST_DEPLOY_SCRIPT" ]; then
+                 exec "$REPO_POST_DEPLOY_SCRIPT"
+                 echo  "Your mungo_post_deploy has been found and has been executed"
+          fi
 else 
        start_app
+       
+        # If the repository has a file called 'mungo_deploy' then run it
+         if [ -x "$REPO_POST_DEPLOY_SCRIPT" ]; then
+                exec "$REPO_POST_DEPLOY_SCRIPT"
+                echo  "Your mungo_post_deploy has been found and has been executed"
+         fi 
 fi
   
 
