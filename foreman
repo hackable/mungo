@@ -1,34 +1,36 @@
 SERVICE='foreman'
+CURRENT_DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 LOG_FILE="app.log"
 
-if ps ax | grep -v grep | grep foreman > /dev/null
+if ps ax | grep -v grep | grep $SERVICE > /dev/null
 then
     FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
     echo "$SERVICE service already running, with process id $FOREMAN_ID..Trying to kill it.."
     kill $FOREMAN_ID
-    eval foreman start & exit
-
+    nohup foreman start > $LOG_FILE  &
+    
     if ps ax | grep -v grep | grep $SERVICE > /dev/null 
     then
           echo "$SERVICE service restarted with process id $FOREMAN_ID, everything is fine"
-
+          cat $CURRENT_DIR/$LOG_FILE
     else
           echo "Unable to start $SERVICE"
-          tail -f $LOG_FILE
+          cat $CURRENT_DIR/$LOG_FILE
     fi   
-
+    
 else
-    FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
     echo "$SERVICE is not running"
     echo "$SERVICE trying to start foreman"
-    eval foreman start & exit
-
-   if ps ax | grep -v grep | grep $SERVICE > /dev/null 
-   then
+    nohup foreman start > $LOG_FILE  &
+    FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
+    
+    if ps ax | grep -v grep | grep $SERVICE > /dev/null 
+    then
           echo "$SERVICE service running with process id $FOREMAN_ID, everything is fine"
-   else
+          cat $CURRENT_DIR/$LOG_FILE
+    else
           echo "Unable to start $SERVICE"
-          tail -f $LOG_FILE    
-   fi
-
+          cat $CURRENT_DIR/$LOG_FILE
+    fi
+    
 fi
