@@ -83,4 +83,6 @@ fi
 
 echo "-------> Deployment has completed"
 
+&
+
 exit
