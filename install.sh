@@ -1,5 +1,6 @@
 #!/bin/bash
 source ./config
+CURRENT_DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 REPO_BASE="$PARENT_DIR"repos/
 SITE_BASE="$PARENT_DIR"sites/
 
@@ -21,3 +22,6 @@ if [ ! -d "$SITE_BASE" ]; then
 else  
     echo   "Base directory for sites already installed"
 fi
+
+
+chmod +x $CURRENT_DIR/mungo.sh
