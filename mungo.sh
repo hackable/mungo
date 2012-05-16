@@ -50,5 +50,16 @@ echo "Your $dir repo & site  has been successfully"
 }
 
 
-switch($COMMAND)
-
+case $COMMAND in
+--create)
+   create $NAME
+   ;;
+--destory)
+   destory $NAME
+   ;;
+--version)
+   echo $VERSION
+*)
+   echo "No option is not recognized"
+   ;;
+esac
