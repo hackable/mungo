@@ -7,7 +7,7 @@ then
     FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
     echo "$SERVICE service already running, with process id $FOREMAN_ID..Trying to kill it.."
     kill $FOREMAN_ID
-    nohup foreman start > $LOG_FILE  
+    foreman start <$LOG_FILE &>$LOG_FILE &
     
     if ps ax | grep -v grep | grep $SERVICE > /dev/null 
     then
@@ -19,10 +19,10 @@ then
     fi   
     
 else
+    FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
     echo "$SERVICE is not running"
     echo "$SERVICE trying to start foreman"
-    nohup foreman start > $LOG_FILE  
-    FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
+    foreman start <$LOG_FILE &>$LOG_FILE &
     
     if ps ax | grep -v grep | grep $SERVICE > /dev/null 
     then
