@@ -31,7 +31,7 @@ function start_app() {
         FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
         echo "$SERVICE service already running, with process id $FOREMAN_ID..Trying to kill it.."
         kill $FOREMAN_ID
-        nohup foreman start > mungo_app.log  &
+        nohup foreman start > mungo_app.log  
 
         if ps ax | grep -v grep | grep $SERVICE > /dev/null 
         then
@@ -74,7 +74,7 @@ function start_app() {
 if [ -x "$REPO_PRE_DEPLOY_SCRIPT" ]; then
        source "$REPO_PRE_DEPLOY_SCRIPT"
        echo   "Your mungo_pre_deploy has been found and has been executed"  
-       start_app
+       source "foreman start"
 else 
        start_app
 fi
