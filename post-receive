@@ -39,7 +39,11 @@ function start_app() {
         else
               echo "Unable to start $SERVICE"
               tail -f mungo_app.log
-        fi   
+        fi   &
+        
+        exit
+        
+        
 
     else
         echo "$SERVICE is not running"
@@ -82,7 +86,3 @@ fi
 
 
 echo "-------> Deployment has completed"
-
-&
-
-exit
