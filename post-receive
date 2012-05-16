@@ -21,19 +21,64 @@ chmod -Rf 0777 $WORKING_DIR
 
 cd $WORKING_DIR
 
+function start_app() {
+  
+  # If the repository has a file called 'Procfile' then run it by foreman
+  if [ -x "$REPO_PROCFILE" ]; then
+
+
+    if ps ax | grep -v grep | grep foreman > /dev/null
+    then
+        FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
+        echo "$SERVICE service already running, with process id $FOREMAN_ID..Trying to kill it.."
+        kill $FOREMAN_ID
+        eval foreman start & exit
+
+        if ps ax | grep -v grep | grep $SERVICE > /dev/null 
+        then
+              echo "$SERVICE service restarted with process id $FOREMAN_ID, everything is fine"
+
+        else
+              echo "Unable to start $SERVICE"
+              tail -f $LOG_FILE
+        fi   
+
+    else
+        FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
+        echo "$SERVICE is not running"
+        echo "$SERVICE trying to start foreman"
+        eval foreman start & exit
+
+       if ps ax | grep -v grep | grep $SERVICE > /dev/null 
+       then
+              echo "$SERVICE service running with process id $FOREMAN_ID, everything is fine"
+       else
+              echo "Unable to start $SERVICE"
+              tail -f $LOG_FILE    
+       fi
+
+    fi
+
+
+
+         # If the repository has a file called 'mungo_deploy' then run it
+         if [ -x "$REPO_POST_DEPLOY_SCRIPT" ]; then
+                exec "$REPO_POST_DEPLOY_SCRIPT"
+                echo  "Your mungo_post_deploy has been found and has been executed"
+         fi
+
+  fi
+}
 
 
 if [ -x "$REPO_PRE_DEPLOY_SCRIPT" ]; then
        source "$REPO_PRE_DEPLOY_SCRIPT"
        echo   "Your mungo_pre_deploy has been found and has been executed"  
+       start_app
 else 
-       echo "Deployment script not found"
+       start_app
 fi
   
 
 
 echo "-------> Deployment has completed"
-
-# Will exit with status of last command.
-
-exit
