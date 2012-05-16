@@ -33,7 +33,11 @@ echo "Installing post receive hooks.."
 
 cp -rf $CURRENT_DIR/post-receive $REPO_BASE$NAME/hooks/
 
+cp -rf $CURRENT_DIR/foreman $SITE_BASE$NAME/
+
 chmod +x $REPO_BASE$NAME/hooks/post-receive
+
+chmod +x $SITE_BASE$NAME/foreman
 
 echo "Your site $NAME has been created is ready for launch..."
 
