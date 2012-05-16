@@ -21,6 +21,8 @@ cd $WORKING_DIR
 
 function start_app() {
   
+  echo $REPO_PROCFILE
+  
   # If the repository has a file called 'Procfile' then run it by foreman
   if [ -x "$REPO_PROCFILE" ]; then
 
