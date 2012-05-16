@@ -75,15 +75,10 @@ if [ -x "$REPO_PRE_DEPLOY_SCRIPT" ]; then
  
 else 
        start_app
-       
-        # If the repository has a file called 'mungo_deploy' then run it
-         if [ -x "$REPO_POST_DEPLOY_SCRIPT" ]; then
-                exec "$REPO_POST_DEPLOY_SCRIPT"
-                echo  "Your mungo_post_deploy has been found and has been executed"
-         fi 
+
 fi
   
-]
+
 
 
 echo "-------> Deployment has completed"
