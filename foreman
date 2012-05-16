@@ -1,46 +1,31 @@
 SERVICE='foreman'
-CURRENT_DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-LOG_FILE="mungo_app.log"
-
-if [ ! -f "$LOG_FILE" ]; then  
-
- echo "Trying to install mungo log file"
- 
- touch $LOG_FILE 
-
- echo "Created install mungo log file"
-
-fi
 
 if ps ax | grep -v grep | grep $SERVICE > /dev/null
 then
     FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
     echo "$SERVICE service already running, with process id $FOREMAN_ID..Trying to kill it.."
     kill $FOREMAN_ID
-    foreman start <$LOG_FILE &>$LOG_FILE &
+    foreman start </dev/null &>/dev/null  &
     
     if ps ax | grep -v grep | grep $SERVICE > /dev/null 
     then
           echo "$SERVICE service restarted with process id $FOREMAN_ID, everything is fine"
-          cat $CURRENT_DIR/$LOG_FILE
     else
           echo "Unable to start $SERVICE"
-          cat $CURRENT_DIR/$LOG_FILE
+
     fi   
     
 else
+    FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
     echo "$SERVICE is not running"
     echo "$SERVICE trying to start foreman"
-    foreman start <$LOG_FILE &>$LOG_FILE &
-    FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
+    foreman start </dev/null  &>/dev/null  &
     
     if ps ax | grep -v grep | grep $SERVICE > /dev/null 
     then
           echo "$SERVICE service running with process id $FOREMAN_ID, everything is fine"
-          cat $CURRENT_DIR/$LOG_FILE
     else
           echo "Unable to start $SERVICE"
-          cat $CURRENT_DIR/$LOG_FILE
     fi
     
 fi

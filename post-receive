@@ -7,6 +7,7 @@ echo "Initialization has completed  beensuccessfully"
 echo "-------> Deployment has started..."
 
 # Checkout the real 'master' so we can view the repo files
+SERVICE='foreman'
 WORKING_DIR=`exec git config --get core.worktree`
 REPO_PRE_DEPLOY_SCRIPT="$WORKING_DIR"/mungo_pre_deploy
 REPO_POST_DEPLOY_SCRIPT="$WORKING_DIR"/mungo_post_deploy
@@ -24,7 +25,43 @@ function start_app() {
   # If the repository has a file called 'Procfile' then run it by foreman
   if [ -x "$REPO_PROCFILE" ]; then
 
-        source "$WORKING_DIR"/foreman
+
+        if ps ax | grep -v grep | grep $SERVICE > /dev/null
+        then
+            FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
+            echo "$SERVICE service already running, with process id $FOREMAN_ID..Trying to kill it.."
+            kill $FOREMAN_ID
+            foreman start </dev/null &>/dev/null  &
+
+            if ps ax | grep -v grep | grep $SERVICE > /dev/null 
+            then
+                  echo "$SERVICE service restarted with process id $FOREMAN_ID, everything is fine"
+            else
+                  echo "Unable to start $SERVICE"
+
+            fi   
+
+        else
+            FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
+            echo "$SERVICE is not running"
+            echo "$SERVICE trying to start foreman"
+            foreman start </dev/null  &>/dev/null  &
+
+            if ps ax | grep -v grep | grep $SERVICE > /dev/null 
+            then
+                  echo "$SERVICE service running with process id $FOREMAN_ID, everything is fine"
+            else
+                  echo "Unable to start $SERVICE"
+            fi
+
+        fi
+        
+
+        # If the repository has a file called 'mungo_deploy' then run it
+        if [ -x "$REPO_POST_DEPLOY_SCRIPT" ]; then
+                   exec "$REPO_POST_DEPLOY_SCRIPT"
+                   echo  "Your mungo_post_deploy has been found and has been executed"
+        fi
        
 
   fi
@@ -46,13 +83,7 @@ else
          fi 
 fi
   
-cat mungo_app.log
-
-# If the repository has a file called 'mungo_deploy' then run it
-if [ -x "$REPO_POST_DEPLOY_SCRIPT" ]; then
-           exec "$REPO_POST_DEPLOY_SCRIPT"
-           echo  "Your mungo_post_deploy has been found and has been executed"
-fi  
+]
 
 
 echo "-------> Deployment has completed"
