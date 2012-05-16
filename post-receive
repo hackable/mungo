@@ -9,15 +9,15 @@ echo "-------> Deployment has started..."
 
 # Checkout the real 'master' so we can view the repo files
 WORKING_DIR=`exec git config --get core.worktree`
-REPO_PRE_DEPLOY_SCRIPT="$WORKING_DIR"mungo_pre_deploy
-REPO_POST_DEPLOY_SCRIPT="$WORKING_DIR"mungo_post_deploy
-REPO_PROCFILE="$WORKING_DIR"Procfile
+REPO_PRE_DEPLOY_SCRIPT="$WORKING_DIR"/mungo_pre_deploy
+REPO_POST_DEPLOY_SCRIPT="$WORKING_DIR"/mungo_post_deploy
+REPO_PROCFILE="$WORKING_DIR"/Procfile
 chmod -Rf 0755 $REPO_PROCFILE
 chmod -Rf 0755 $REPO_POST_DEPLOY_SCRIPT
 chmod -Rf 0755 $REPO_PRE_DEPLOY_SCRIPT
 
-if [ -x "$REPO_POST_DEPLOY_SCRIPT" ]; then
-       exec "$REPO_POST_DEPLOY_SCRIPT"
+if [ -x "$REPO_PRE_DEPLOY_SCRIPT" ]; then
+       exec "$REPO_PRE_DEPLOY_SCRIPT"
        echo  "Your mungo_pre_deploy has been found and has been executed"  
 fi
   

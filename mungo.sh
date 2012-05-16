@@ -15,6 +15,8 @@ echo "Creating repository & site"
 
 mkdir "$REPO_BASE$NAME"
 
+mkdir "$SITE_BASE$NAME"
+
 echo "Initializing... repository" 
 
 cd $REPO_BASE$NAME
@@ -59,7 +61,7 @@ case $COMMAND in
    destory $NAME
    ;;
 --version)
-   echo $VERSION
+   echo "mungo "$VERSION
    ;;
 *)
    echo "No option is not recognized"
