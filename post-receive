@@ -23,9 +23,8 @@ function start_app() {
   
   # If the repository has a file called 'Procfile' then run it by foreman
   if [ -x "$REPO_PROCFILE" ]; then
-    
-        if [ -x "$REPO_POST_DEPLOY_SCRIPT" ]; then
-        source "$WORKING_DIR"/foreman
+
+        source "$WORKING_DIR"/foreman_start
 
          # If the repository has a file called 'mungo_deploy' then run it
          if [ -x "$REPO_POST_DEPLOY_SCRIPT" ]; then
