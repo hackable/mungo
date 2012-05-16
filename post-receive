@@ -25,6 +25,7 @@ function start_app() {
   if [ -x "$REPO_PROCFILE" ]; then
 
         source "$WORKING_DIR"/foreman
+        cat $WORKING_DIR/mungo_app.log
 
          # If the repository has a file called 'mungo_deploy' then run it
          if [ -x "$REPO_POST_DEPLOY_SCRIPT" ]; then
