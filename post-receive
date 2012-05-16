@@ -3,6 +3,22 @@ echo "Initializing deployment of your site from repo...."
 git checkout -f
 echo "Initialization has completed  beensuccessfully"
 
+
+echo "-------> Deployment has started..."
+
+# Checkout the real 'master' so we can view the repo files
+WORKING_DIR=`exec git config --get core.worktree`
+REPO_PRE_DEPLOY_SCRIPT="$WORKING_DIR"/mungo_pre_deploy
+REPO_POST_DEPLOY_SCRIPT="$WORKING_DIR"/mungo_post_deploy
+REPO_PROCFILE="$WORKING_DIR"/Procfile
+chmod -Rf 0755 $REPO_PROCFILE
+chmod -Rf 0755 $REPO_POST_DEPLOY_SCRIPT
+chmod -Rf 0755 $REPO_PRE_DEPLOY_SCRIPT
+
+chmod -Rf 0777 $WORKING_DIR
+
+cd $WORKING_DIR
+
 function start_app() {
   
   # If the repository has a file called 'Procfile' then run it by foreman
@@ -21,20 +37,6 @@ function start_app() {
   fi
 }
 
-echo "-------> Deployment has started..."
-
-# Checkout the real 'master' so we can view the repo files
-WORKING_DIR=`exec git config --get core.worktree`
-REPO_PRE_DEPLOY_SCRIPT="$WORKING_DIR"/mungo_pre_deploy
-REPO_POST_DEPLOY_SCRIPT="$WORKING_DIR"/mungo_post_deploy
-REPO_PROCFILE="$WORKING_DIR"/Procfile
-chmod -Rf 0755 $REPO_PROCFILE
-chmod -Rf 0755 $REPO_POST_DEPLOY_SCRIPT
-chmod -Rf 0755 $REPO_PRE_DEPLOY_SCRIPT
-
-chmod -Rf 0777 $WORKING_DIR
-
-cd $WORKING_DIR
 
 if [ -x "$REPO_PRE_DEPLOY_SCRIPT" ]; then
        exec "$REPO_PRE_DEPLOY_SCRIPT"
