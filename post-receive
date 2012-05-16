@@ -24,7 +24,7 @@ function start_app() {
   # If the repository has a file called 'Procfile' then run it by foreman
   if [ -x "$REPO_PROCFILE" ]; then
 
-  	     foreman start
+  	     exec "foreman start"
 
          echo  "Foreman is trying to start your application."
 
