@@ -35,14 +35,11 @@ function start_app() {
 
         if ps ax | grep -v grep | grep $SERVICE > /dev/null 
         then
-              echo "$SERVICE service restarted with process id $FOREMAN_ID, everything is fine"  & exit
+              echo "$SERVICE service restarted with process id $FOREMAN_ID, everything is fine"
         else
               echo "Unable to start $SERVICE"
-              tail -f mungo_app.log & exit
+              tail -f mungo_app.log
         fi   
-
-        
-        
 
     else
         echo "$SERVICE is not running"
@@ -84,4 +81,4 @@ fi
   
 
 
-echo "-------> Deployment has completed"
+echo "-------> Deployment has completed" & exit
