@@ -81,4 +81,8 @@ fi
   
 
 
-echo "-------> Deployment has completed" & exit
+echo "-------> Deployment has completed"
+
+# Will exit with status of last command.
+
+exit
