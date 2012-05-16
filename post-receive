@@ -22,21 +22,7 @@ cd $WORKING_DIR
 function start_app() {
   
   echo $REPO_PROCFILE
-  
-  # If the repository has a file called 'Procfile' then run it by foreman
-  if [ -x "$REPO_PROCFILE" ]; then
 
-  	     foreman start
-
-         echo  "Foreman is trying to start your application."
-
-         # If the repository has a file called 'mungo_deploy' then run it
-         if [ -x "$REPO_POST_DEPLOY_SCRIPT" ]; then
-                exec "$REPO_POST_DEPLOY_SCRIPT"
-                echo  "Your mungo_post_deploy has been found and has been executed"
-         fi
-
-  fi
 }
 
 
