@@ -3,6 +3,7 @@
 source ./config
 
 # declare directory variable
+CURRENT_DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 REPO_BASE="$PARENT_DIR"repos/
 SITE_BASE="$PARENT_DIR"sites/
 COMMAND=$1
@@ -28,7 +29,7 @@ git config receive.denycurrentbranch ignore
 
 echo "Installing post receive hooks.."
 
-cp -rf post-receive $REPO_BASE$NAME/hooks/
+cp -rf $CURRENT_DIR/post-receive $REPO_BASE$NAME/hooks/
 
 chmod +x $REPO_BASE$NAME/hooks/post-receive
 
