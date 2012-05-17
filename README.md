@@ -1,4 +1,4 @@
 mungo
 =====
 
-Mungo is open source tool which helps you deploy your apps like heroku on amazon ec2 linux ami
+Mungo simple tool for deployment of procfile based applications.
