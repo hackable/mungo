@@ -35,7 +35,7 @@ function start_app() {
 
           if ps ax | grep -v grep | grep $SERVICE > /dev/null 
           then
-                echo "$SERVICE service restarted with process id $FOREMAN_ID, everything is fine"
+                echo "$SERVICE service restarted with process id $FOREMAN_ID"
           else
                 echo "Unable to start $SERVICE"
           fi   
@@ -47,7 +47,7 @@ function start_app() {
           FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
           if ps ax | grep -v grep | grep $SERVICE > /dev/null 
           then
-                echo "$SERVICE service running with process id $FOREMAN_ID, everything is fine"
+                echo "$SERVICE service running with process id $FOREMAN_ID"
           else
                 echo "Unable to start $SERVICE"
           fi
