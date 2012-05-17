@@ -31,27 +31,12 @@ function start_app() {
            FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
            echo "$SERVICE service already running, with process id $FOREMAN_ID..Trying to kill it.."
            kill $FOREMAN_ID
-           foreman start  &
-
-           if ps ax | grep -v grep | grep $SERVICE > /dev/null 
-           then
-                 echo "$SERVICE service restarted with process id $FOREMAN_ID, everything is fine"
-           else
-                 echo "Unable to start $SERVICE"
-           fi   
+           foreman start
 
        else
            echo "$SERVICE is not running"
            echo "$SERVICE trying to start foreman"
-           foreman start &
-           FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
-           if ps ax | grep -v grep | grep $SERVICE > /dev/null 
-           then
-                 echo "$SERVICE service running with process id $FOREMAN_ID, everything is fine"
-           else
-                 echo "Unable to start $SERVICE"
-           fi
-
+           foreman start 
        fi
         
 
