@@ -26,33 +26,33 @@ function start_app() {
   if [ -x "$REPO_PROCFILE" ]; then
 
 
-       if ps ax | grep -v grep | grep $SERVICE > /dev/null
-       then
-           FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
-           echo "$SERVICE service already running, with process id $FOREMAN_ID..Trying to kill it.."
-           kill $FOREMAN_ID
-           nohup foreman start  > /dev/null &
+      if ps ax | grep -v grep | grep $SERVICE > /dev/null
+      then
+          FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
+          echo "$SERVICE service already running, with process id $FOREMAN_ID..Trying to kill it.."
+          kill $FOREMAN_ID
+          nohup foreman start  > /dev/null 2>&1 &
 
-           if ps ax | grep -v grep | grep $SERVICE > /dev/null 
-           then
-                 echo "$SERVICE service restarted with process id $FOREMAN_ID, everything is fine"
-           else
-                 echo "Unable to start $SERVICE"
-           fi   
+          if ps ax | grep -v grep | grep $SERVICE > /dev/null 
+          then
+                echo "$SERVICE service restarted with process id $FOREMAN_ID, everything is fine"
+          else
+                echo "Unable to start $SERVICE"
+          fi   
 
-       else
-           echo "$SERVICE is not running"
-           echo "$SERVICE trying to start foreman"
-           nohup foreman start > /dev/null &
-           FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
-           if ps ax | grep -v grep | grep $SERVICE > /dev/null 
-           then
-                 echo "$SERVICE service running with process id $FOREMAN_ID, everything is fine"
-           else
-                 echo "Unable to start $SERVICE"
-           fi
+      else
+          echo "$SERVICE is not running"
+          echo "$SERVICE trying to start foreman"
+          nohup foreman start > /dev/null 2>&1 &
+          FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
+          if ps ax | grep -v grep | grep $SERVICE > /dev/null 
+          then
+                echo "$SERVICE service running with process id $FOREMAN_ID, everything is fine"
+          else
+                echo "Unable to start $SERVICE"
+          fi
 
-       fi
+      fi
         
 
         # If the repository has a file called 'mungo_deploy' then run it
