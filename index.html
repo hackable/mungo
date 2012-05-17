@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Mungo by hackable</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Mungo</h1>
+        <p>Mungo simple tool for deployment of procfile based applications using foreman.</p>
+        <p class="view"><a href="https://github.com/hackable/mungo">View the Project on GitHub <small>hackable/mungo</small></a></p>
+        <ul>
+          <li><a href="https://github.com/hackable/mungo/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/hackable/mungo/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/hackable/mungo">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>mungo</h1>
+
+<h1></h1>
+
+<p>Mungo is set of bash scripts source which help you deploy your apps like heroku on amazon ec2 linux ami using foreman. </p>
+
+<p><strong>By default your app will start on port 5000</strong></p>
+
+<hr><h2>install</h2>
+
+<h1></h1>
+
+<p>sudo -s</p>
+
+<p>yum update</p>
+
+<p>yum remove ruby</p>
+
+<p>curl -L get.rvm.io |bash -s stable</p>
+
+<p>rvm install 1.9.3</p>
+
+<p>ruby -v</p>
+
+<p>gem install foreman</p>
+
+<p>git clone git://github.com/hackable/mungo.git &amp;&amp; cd mungo </p>
+
+<p>chmod +x install.sh  &amp;&amp; ./install.sh</p>
+
+<p>If you want to run coffee-script based apps u need to install coffee-script  with </p>
+
+<p>npm install -g coffee-script</p>
+
+<h2>local repo to remote deploy</h2>
+
+<h1></h1>
+
+<p>git init </p>
+
+<p>git add .</p>
+
+<p>git commit -a -m "My first commit"</p>
+
+<p>git remote add cloud ec2-user@EC2_PUBLIC_URL:/home/ec2-user/repos/PROJECT_NAME</p>
+
+<p>git push cloud master</p>
+
+<h2>commands</h2>
+
+<h1></h1>
+
+<ul>
+<li><p>./mungo.sh --create [project_name]</p></li>
+<li><p>./mungo.sh --destory [project_name]</p></li>
+<li><p>./mungo.sh --version</p></li>
+</ul><h2>deployment</h2>
+
+<h1></h1>
+
+<p>create the following file in the root of your app if you want to execute pre and post deploy commands:-</p>
+
+<ul>
+<li><p>mungo_pre_deploy - put all your pre deploy commands here such as npm install for node apps and bundle</p></li>
+<li><p>mungo_post_deploy - put all post deploy commands </p></li>
+</ul>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/hackable">hackable</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
