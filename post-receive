@@ -28,10 +28,10 @@ function start_app() {
 
       if ps ax | grep -v grep | grep $SERVICE > /dev/null
       then
-          FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
           echo "$SERVICE service already running, with process id $FOREMAN_ID..Trying to kill it.."
           kill $FOREMAN_ID
           nohup foreman start  > /dev/null 2>&1 &
+          FOREMAN_ID=`ps aux | grep foreman | grep -v grep | awk '{print $2}'`
 
           if ps ax | grep -v grep | grep $SERVICE > /dev/null 
           then
@@ -53,6 +53,7 @@ function start_app() {
           fi
 
       fi
+      
         
 
         # If the repository has a file called 'mungo_deploy' then run it
