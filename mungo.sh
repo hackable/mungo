@@ -34,7 +34,6 @@ echo "Installing post receive hooks.."
 cp -rf $CURRENT_DIR/post-receive $REPO_BASE$NAME/hooks/
 
 
-
 chmod +x $REPO_BASE$NAME/hooks/post-receive
 
 
